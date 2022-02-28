@@ -5,10 +5,56 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Phone Cloud</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <!-- Custoem Style -->
+    <link rel="stylesheet" href="css/custome-style.css" />
   </head>
   <body>
-    <h1>Phone Cloud</h1>
+    <h3 class="text-center mt-4">Phone Cloud</h3>
 
+    <!-- Search Section -->
+    <div class="container input-group w-50 mb-3">
+      <input
+        id="search-field"
+        type="text"
+        class="form-control"
+        placeholder="Search by phone name"
+        aria-label="Recipient's username"
+        aria-describedby="search-button"
+      />
+      <button
+        class="btn btn-outline-secondary"
+        type="button"
+        onclick="loadData()"
+      >
+        Button
+      </button>
+    </div>
+    <!-- Error Message -->
+    <p id="error-message" class="text-center text-danger">
+      Something is wrong. Please try again later.
+    </p>
+    <!-- Phone Search result Card Section -->
+    <div class="container">
+      <div id="phones" class="row row-cols-1 row-cols-md-4 g-4 my-5">
+        <!-- <div class="col">
+          <div class="card"></div>
+        </div> -->
+      </div>
+    </div>
+
+    <!-- Spinner -->
+    <div id="spinner" class="">
+      <div class="d-flex flex-column justify-content-center align-items-center">
+        <img class="w-50" src="./image/Loading.gif" alt="" />
+        <h2>Loading</h2>
+      </div>
+    </div>
+
+    <!-- Custom Script -->
     <script src="js/app.js"></script>
+    <!-- Bootstrap Script -->
+    <script src="js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

@@ -1,0 +1,65 @@
+const searchField = document.getElementById("search-field");
+const searchButton = document.getElementById("search-button");
+const errorMessage = document.getElementById("error-message");
+const phonesDiv = document.getElementById("phones");
+errorMessage.style.display = "none";
+// Load Data fro Api
+const loadData = () => {
+  phonesDiv.textContent = "";
+  errorMessage.style.display = "none";
+  const searchText = searchField.value;
+  if (searchText === "") {
+    errorMessage.innerText =
+      "Are you foolish!!! Please enter phone name or brand name";
+    errorMessage.style.display = "block";
+    console.log("Are you foolish!!! Please enter phone name or brand name");
+  } else {
+    const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
+    fetch(url)
+      .then((respose) => respose.json())
+      .then((document.getElementById("spinner").style.display = "block"))
+      .then((data) => displayData(data.data))
+      .catch((error) => displayError(error));
+  }
+};
+
+const displayData = (phones) => {
+  if (phones.length === 0) {
+    errorMessage.innerText = "Not Found. Please try with another keyword";
+    errorMessage.style.display = "block";
+    console.log("Not Found. Please try with anthoer keyword");
+    document.getElementById("spinner").style.display = "none";
+  } else {
+    phonesDiv.textContent = "";
+    for (const phone of phones) {
+      const phoneCardDiv = document.createElement("div");
+      phoneCardDiv.classList.add("col");
+      phoneCardDiv.innerHTML = `
+        <div class="card h-100">
+            <img src="${phone.image}" class="card-img-top w-50 mx-auto pt-2 " alt="" />
+            <div class="card-body p-2">
+              <h5 class="card-title text-center m-0">${phone.phone_name}</h5>
+              <h6 class="card-title text-center m-0">${phone.brand}</h6>
+            </div>
+            <div class="card-footer bg-white text-center border-0">
+              <button
+                  onclick="loadMealDetails(${phone.slug})"     class="btn btn-info">See Details
+              </button>
+            </div>
+        </div>
+      `;
+      phonesDiv.appendChild(phoneCardDiv);
+      console.log(`Brand ${phone.brand}`);
+      console.log(`Name ${phone.phone_name}`);
+      console.log(`Photo ${phone.image}`);
+      console.log(`Id ${phone.slug}`);
+    }
+    console.log(phones);
+    document.getElementById("spinner").style.display = "none";
+  }
+};
+
+const displayError = () => {
+  errorMessage.style.display = "block";
+  document.getElementById("spinner").style.display = "none";
+};
