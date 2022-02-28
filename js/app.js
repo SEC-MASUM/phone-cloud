@@ -7,7 +7,8 @@ errorMessage.style.display = "none";
 const loadData = () => {
   phonesDiv.textContent = "";
   errorMessage.style.display = "none";
-  const searchText = searchField.value;
+  let searchText = searchField.value;
+  searchText = searchText.toLowerCase(); // search text make lower case
   if (searchText === "") {
     errorMessage.innerText =
       "Are you foolish!!! Please enter phone name or brand name";
