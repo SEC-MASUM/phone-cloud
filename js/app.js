@@ -12,6 +12,7 @@ const loadData = () => {
 
   phonesDiv.textContent = "";
   errorMessage.style.display = "none";
+  showMoreButton.style.display = "none";
   let searchText = searchField.value;
   searchText = searchText.toLowerCase(); // search text make lower case
   if (searchText === "") {
@@ -25,19 +26,21 @@ const loadData = () => {
       .then((respose) => respose.json())
       .then((document.getElementById("spinner").style.display = "block"))
       .then((data) => displayData(data.data))
+
       .catch((error) => displayError(error));
   }
 };
 
 // Display Phones
 const displayData = (phones) => {
+  console.log(phones);
   if (phones.length === 0) {
     errorMessage.innerText = "Not Found. Please try with another keyword";
     errorMessage.style.display = "block";
     // console.log("Not Found. Please try with anthoer keyword");
     document.getElementById("spinner").style.display = "none";
   } else if (phones.length <= 20) {
-    createPhoneCard(phones, 0, 20);
+    createPhoneCard(phones, 0, phones.length);
   } else if (phones.length > 20) {
     createPhoneCard(phones, 0, 20);
     // Create Show More Button
@@ -76,9 +79,7 @@ const displayError = () => {
 
 // Create Phone Card
 const createPhoneCard = (phone, start, end) => {
-  console.log(phone[start].image);
   for (let i = start; i < end; i++) {
-    console.log(phone[i].image);
     const phoneCardDiv = document.createElement("div");
     phoneCardDiv.classList.add("col");
     phoneCardDiv.innerHTML = `
@@ -102,7 +103,7 @@ const createPhoneCard = (phone, start, end) => {
 
 // Load Phone Details
 const loadPhoneDetails = (id) => {
-  console.log(id);
+  // console.log(id);
   const url = `https://openapi.programming-hero.com/api/phone/${id}`;
   fetch(url)
     .then((response) => response.json())
