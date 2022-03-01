@@ -3,11 +3,13 @@ const searchButton = document.getElementById("search-button");
 const errorMessage = document.getElementById("error-message");
 const phonesDiv = document.getElementById("phones");
 const phoneDetails = document.getElementById("phone-details");
+const showMoreButton = document.getElementById("show-more-button");
 errorMessage.style.display = "none";
 // Load Data fro Api
 const loadData = () => {
   phoneDetails.textContent = "";
   phoneDetails.style.display = "none";
+  // showMoreButton.style.display = "none";
 
   phonesDiv.textContent = "";
   errorMessage.style.display = "none";
@@ -30,17 +32,64 @@ const loadData = () => {
 
 // Display Phones
 const displayData = (phones) => {
+  const totalProduct = phones.length;
+  let count = 0;
   if (phones.length === 0) {
     errorMessage.innerText = "Not Found. Please try with another keyword";
     errorMessage.style.display = "block";
-    console.log("Not Found. Please try with anthoer keyword");
+    // console.log("Not Found. Please try with anthoer keyword");
     document.getElementById("spinner").style.display = "none";
-  } else {
-    phonesDiv.textContent = "";
+  } else if (phones.length <= 20) {
+    // phonesDiv.textContent = "";
     for (const phone of phones) {
-      const phoneCardDiv = document.createElement("div");
-      phoneCardDiv.classList.add("col");
-      phoneCardDiv.innerHTML = `
+      count = count + 1;
+      createPhoneCard(phone);
+    }
+    // console.log(phones);
+    document.getElementById("spinner").style.display = "none";
+  } else if (phones.length > 20) {
+    console.log(phones[0]);
+    for (let i = 0; i < 20; i++) {
+      createPhoneCard(phones[i]);
+    }
+    document.getElementById("spinner").style.display = "none";
+    showMoreButton.innerHTML = `
+          <button
+            onclick="disolayMorePhones('${phones}')"
+            type="button"
+            class="btn btn-primary py-2 px-4 fs-5"
+          >
+            Show More
+          </button>
+    `;
+    // showMoreButton.style.display = "block";
+  }
+};
+
+const disolayMorePhones = (phones) => {
+  for (const phone of phones) {
+    console.log(phone);
+  }
+  // for (let i = 20; i < phones.length; i++) {
+  //   createPhoneCard(phones[i]);
+  // }
+};
+
+// Error Message
+const displayError = () => {
+  errorMessage.style.display = "block";
+  document.getElementById("spinner").style.display = "none";
+};
+
+// Create Phone Card
+const createPhoneCard = (phone) => {
+  // console.log(`Brand ${phone.brand}`);
+  // console.log(`Name ${phone.phone_name}`);
+  // console.log(`Photo ${phone.image}`);
+  // console.log(`Id ${phone.slug}`);
+  const phoneCardDiv = document.createElement("div");
+  phoneCardDiv.classList.add("col");
+  phoneCardDiv.innerHTML = `
         <div class="card h-100">
             <img src="${phone.image}" class="card-img-top w-50 mx-auto pt-2 " alt="" />
             <div class="card-body p-2">
@@ -54,20 +103,7 @@ const displayData = (phones) => {
             </div>
         </div>
       `;
-      phonesDiv.appendChild(phoneCardDiv);
-      // console.log(`Brand ${phone.brand}`);
-      // console.log(`Name ${phone.phone_name}`);
-      // console.log(`Photo ${phone.image}`);
-      // console.log(`Id ${phone.slug}`);
-    }
-    // console.log(phones);
-    document.getElementById("spinner").style.display = "none";
-  }
-};
-// Error Message
-const displayError = () => {
-  errorMessage.style.display = "block";
-  document.getElementById("spinner").style.display = "none";
+  phonesDiv.appendChild(phoneCardDiv);
 };
 
 // Load Phone Details
@@ -90,18 +126,18 @@ const displayPhoneDetails = (phone) => {
             <table class="table table-striped table-hover">
               <tbody>
                 <tr class="row border-top">
-                  <th scope="row" class="col-2 col-lg-2">Name</th>
-                  <td class="col-10 col-lg-10">${phone.name}</td>
+                  <th scope="row" class="col-3 col-lg-2">Name</th>
+                  <td class="col-9 col-lg-10">${phone.name}</td>
                 </tr>
                 <tr class="row">
-                  <th scope="row" class="col-2 col-lg-2">Release Data</th>
-                  <td class="col-10 col-lg-10">${
+                  <th scope="row" class="col-3 col-lg-2">Release Data</th>
+                  <td class="col-9 col-lg-10">${
                     phone?.releaseDate || "No data found"
                   }</td>
                 </tr>
                 <tr class="row">
-                  <th scope="row" class="col-2 col-lg-2">Brand</th>
-                  <td class="col-10 col-lg-10">${
+                  <th scope="row" class="col-3 col-lg-2">Brand</th>
+                  <td class="col-9 col-lg-10">${
                     phone.brand || "No data found"
                   }</td>
                 </tr>
@@ -109,32 +145,32 @@ const displayPhoneDetails = (phone) => {
                   <th scope="row" colspan="2" class="table-active table-dark text-center">Main Features</th>
                 </tr>
                 <tr class="row">
-                  <th scope="row" class="col-2 col-lg-2">Display Size</th>
-                  <td class="col-10 col-lg-10">${
+                  <th scope="row" class="col-3 col-lg-2">Display Size</th>
+                  <td class="col-9 col-lg-10">${
                     phone.mainFeatures.displaySize || "No data found"
                   }</td>
                 </tr>
                 <tr class="row">
-                  <th scope="row" class="col-2 col-lg-2">Chipset</th>
-                  <td class="col-10 col-lg-10">${
+                  <th scope="row" class="col-3 col-lg-2">Chipset</th>
+                  <td class="col-9 col-lg-10">${
                     phone.mainFeatures.chipSet || "No data found"
                   }</td>
                 </tr>
                 <tr class="row">
-                  <th scope="row" class="col-2 col-lg-2">Memory</th>
-                  <td class="col-10 col-lg-10">${
+                  <th scope="row" class="col-3 col-lg-2">Memory</th>
+                  <td class="col-9 col-lg-10">${
                     phone.mainFeatures.memory || "No data found"
                   }</td>
                 </tr>
                 <tr class="row">
-                  <th scope="row" class="col-2 col-lg-2">Storage</th>
-                  <td class="col-10 col-lg-10">${
+                  <th scope="row" class="col-3 col-lg-2">Storage</th>
+                  <td class="col-9 col-lg-10">${
                     phone.mainFeatures.storage || "No data found"
                   }</td>
                 </tr>
                 <tr class="row">
-                  <th scope="row" class="col-2 col-lg-2">Sensors</th>
-                  <td class="col-10 col-lg-10">${
+                  <th scope="row" class="col-3 col-lg-2">Sensors</th>
+                  <td class="col-9 col-lg-10">${
                     phone.mainFeatures?.sensors?.join(", ") || "No data found"
                   }</td>
                 </tr>
@@ -142,38 +178,38 @@ const displayPhoneDetails = (phone) => {
                   <th scope="row" colspan="2" class="table-active table-dark text-center">Others</th>
                 </tr>
                 <tr class="row">
-                  <th scope="row" class="col-2 col-lg-2">WLAN</th>
-                  <td class="col-10 col-lg-10">${
+                  <th scope="row" class="col-3 col-lg-2">WLAN</th>
+                  <td class="col-9 col-lg-10">${
                     phone?.others?.WLAN || "No data found"
                   }</td>
                 </tr>
                 <tr class="row">
-                  <th scope="row" class="col-2 col-lg-2">Bluetooth</th>
-                  <td class="col-10 col-lg-10">${
+                  <th scope="row" class="col-3 col-lg-2">Bluetooth</th>
+                  <td class="col-9 col-lg-10">${
                     phone?.others?.Bluetooth || "No data found"
                   }</td>
                 </tr>
                 <tr class="row">
-                  <th scope="row" class="col-2 col-lg-2">GPS</th>
-                  <td class="col-10 col-lg-10">${
+                  <th scope="row" class="col-3 col-lg-2">GPS</th>
+                  <td class="col-9 col-lg-10">${
                     phone?.others?.GPS || "No data found"
                   }</td>
                 </tr>
                 <tr class="row">
-                  <th scope="row" class="col-2 col-lg-2">NFC</th>
-                  <td class="col-10 col-lg-10">${
+                  <th scope="row" class="col-3 col-lg-2">NFC</th>
+                  <td class="col-9 col-lg-10">${
                     phone?.others?.NFC || "No data found"
                   }</td>
                 </tr>
                 <tr class="row">
-                  <th scope="row" class="col-2 col-lg-2">Radio</th>
-                  <td class="col-10 col-lg-10">${
+                  <th scope="row" class="col-3 col-lg-2">Radio</th>
+                  <td class="col-9 col-lg-10">${
                     phone?.others?.Radio || "No data found"
                   }</td>
                 </tr>
                 <tr class="row">
-                  <th scope="row" class="col-2 col-lg-2">USB</th>
-                  <td class="col-10 col-lg-10">${
+                  <th scope="row" class="col-3 col-lg-2">USB</th>
+                  <td class="col-9 col-lg-10">${
                     phone?.others?.USB || "No data found"
                   }</td>
                 </tr>
