@@ -16,8 +16,7 @@ const loadData = () => {
   let searchText = searchField.value;
   searchText = searchText.toLowerCase(); // search text make lower case
   if (searchText === "") {
-    errorMessage.innerText =
-      "Are you foolish!!! Please enter phone name or brand name";
+    errorMessage.innerText = "Please enter phone name or brand name";
     errorMessage.style.display = "block";
     console.log("Are you foolish!!! Please enter phone name or brand name");
   } else {
@@ -91,7 +90,7 @@ const createPhoneCard = (phone, start, end) => {
             </div>
             <div class="card-footer bg-white text-center border-0">
               <button
-                  onclick="loadPhoneDetails('${phone[i].slug}')"     class="btn btn-info">See Details
+                  onclick="loadPhoneDetails('${phone[i].slug}')"     class="btn btn-info w-100 text-white">Details
               </button>
             </div>
         </div>
