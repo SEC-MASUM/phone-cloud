@@ -5,11 +5,10 @@ const phonesDiv = document.getElementById("phones");
 const phoneDetails = document.getElementById("phone-details");
 const showMoreButton = document.getElementById("show-more-button");
 errorMessage.style.display = "none";
-// Load Data fro Api
+// Load Data from Api
 const loadData = () => {
   phoneDetails.textContent = "";
   phoneDetails.style.display = "none";
-  // showMoreButton.style.display = "none";
 
   phonesDiv.textContent = "";
   errorMessage.style.display = "none";
@@ -32,47 +31,41 @@ const loadData = () => {
 
 // Display Phones
 const displayData = (phones) => {
-  const totalProduct = phones.length;
-  let count = 0;
   if (phones.length === 0) {
     errorMessage.innerText = "Not Found. Please try with another keyword";
     errorMessage.style.display = "block";
     // console.log("Not Found. Please try with anthoer keyword");
     document.getElementById("spinner").style.display = "none";
   } else if (phones.length <= 20) {
-    // phonesDiv.textContent = "";
-    for (const phone of phones) {
-      count = count + 1;
-      createPhoneCard(phone);
-    }
-    // console.log(phones);
-    document.getElementById("spinner").style.display = "none";
+    createPhoneCard(phones, 0, 20);
   } else if (phones.length > 20) {
-    console.log(phones[0]);
-    for (let i = 0; i < 20; i++) {
-      createPhoneCard(phones[i]);
-    }
+    createPhoneCard(phones, 0, 20);
+    // Create Show More Button
     document.getElementById("spinner").style.display = "none";
     showMoreButton.innerHTML = `
           <button
-            onclick="disolayMorePhones('${phones}')"
+            onclick="displayMorePhones('${searchField.value}')"
             type="button"
             class="btn btn-primary py-2 px-4 fs-5"
           >
             Show More
           </button>
     `;
-    // showMoreButton.style.display = "block";
+    showMoreButton.style.display = "block";
   }
 };
 
-const disolayMorePhones = (phones) => {
-  for (const phone of phones) {
-    console.log(phone);
-  }
-  // for (let i = 20; i < phones.length; i++) {
-  //   createPhoneCard(phones[i]);
-  // }
+const displayMorePhones = (searchText) => {
+  // console.log(searchText);
+  showMoreButton.style.display = "none";
+  document.getElementById("spinner").style.display = "block";
+  searchText = searchText.toLowerCase(); // search text make lower case
+
+  const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`;
+  fetch(url)
+    .then((respose) => respose.json())
+    .then((data) => createPhoneCard(data.data, 20, data.data.length))
+    .catch((error) => displayError(error));
 };
 
 // Error Message
@@ -82,28 +75,29 @@ const displayError = () => {
 };
 
 // Create Phone Card
-const createPhoneCard = (phone) => {
-  // console.log(`Brand ${phone.brand}`);
-  // console.log(`Name ${phone.phone_name}`);
-  // console.log(`Photo ${phone.image}`);
-  // console.log(`Id ${phone.slug}`);
-  const phoneCardDiv = document.createElement("div");
-  phoneCardDiv.classList.add("col");
-  phoneCardDiv.innerHTML = `
+const createPhoneCard = (phone, start, end) => {
+  console.log(phone[start].image);
+  for (let i = start; i < end; i++) {
+    console.log(phone[i].image);
+    const phoneCardDiv = document.createElement("div");
+    phoneCardDiv.classList.add("col");
+    phoneCardDiv.innerHTML = `
         <div class="card h-100">
-            <img src="${phone.image}" class="card-img-top w-50 mx-auto pt-2 " alt="" />
+            <img src="${phone[i].image}" class="card-img-top w-50 mx-auto pt-2 " alt="" />
             <div class="card-body p-2">
-              <h5 class="card-title text-center m-0">${phone.phone_name}</h5>
-              <h6 class="card-title text-center m-0">${phone.brand}</h6>
+              <h5 class="card-title text-center m-0">${phone[i].phone_name}</h5>
+              <h6 class="card-title text-center m-0">${phone[i].brand}</h6>
             </div>
             <div class="card-footer bg-white text-center border-0">
               <button
-                  onclick="loadPhoneDetails('${phone.slug}')"     class="btn btn-info">See Details
+                  onclick="loadPhoneDetails('${phone[i].slug}')"     class="btn btn-info">See Details
               </button>
             </div>
         </div>
       `;
-  phonesDiv.appendChild(phoneCardDiv);
+    phonesDiv.appendChild(phoneCardDiv);
+  }
+  document.getElementById("spinner").style.display = "none";
 };
 
 // Load Phone Details
@@ -217,9 +211,9 @@ const displayPhoneDetails = (phone) => {
             </table>
           </div>
   `;
-  // phoneDetails.appendChild(div);
+};
 
-  /* console.log(phone.name || "Not Found");
+/* console.log(phone.name || "Not Found");
   console.log(phone?.releaseDate);
   console.log(phone.image);
   console.log(phone.brand);
@@ -234,4 +228,3 @@ const displayPhoneDetails = (phone) => {
   console.log(phone?.others?.NFC);
   console.log(phone?.others?.Radio);
   console.log(phone?.others?.USB); */
-};
