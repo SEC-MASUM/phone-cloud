@@ -2,9 +2,13 @@ const searchField = document.getElementById("search-field");
 const searchButton = document.getElementById("search-button");
 const errorMessage = document.getElementById("error-message");
 const phonesDiv = document.getElementById("phones");
+const phoneDetails = document.getElementById("phone-details");
 errorMessage.style.display = "none";
 // Load Data fro Api
 const loadData = () => {
+  phoneDetails.textContent = "";
+  phoneDetails.style.display = "none";
+
   phonesDiv.textContent = "";
   errorMessage.style.display = "none";
   let searchText = searchField.value;
@@ -77,18 +81,109 @@ const loadPhoneDetails = (id) => {
 
 // Display Phone Details
 const displayPhoneDetails = (phone) => {
-  const phoneDetails = document.getElementById("phone-details");
-  const div = document.createElement("div");
-  div.classList.add("row", "border-bottom", "border-top", "border-2");
-  div.innerHTML = `
-          <div class="col-2 col-lg-2"><h6>col-2</h6></div>
-            <div class="col-10 col-lg-10 d-flex align-items-center">
-              <span>${phone.name || "Not Found"}</span>
+  phoneDetails.style.display = "block";
+  phoneDetails.innerHTML = `
+          <div>
+            <img src="${phone.image}" />
+          </div>
+          <div>
+            <table class="table table-striped table-hover">
+              <tbody>
+                <tr class="row border-top">
+                  <th scope="row" class="col-2 col-lg-2">Name</th>
+                  <td class="col-10 col-lg-10">${phone.name}</td>
+                </tr>
+                <tr class="row">
+                  <th scope="row" class="col-2 col-lg-2">Release Data</th>
+                  <td class="col-10 col-lg-10">${
+                    phone?.releaseDate || "No data found"
+                  }</td>
+                </tr>
+                <tr class="row">
+                  <th scope="row" class="col-2 col-lg-2">Brand</th>
+                  <td class="col-10 col-lg-10">${
+                    phone.brand || "No data found"
+                  }</td>
+                </tr>
+                <tr class="row">
+                  <th scope="row" colspan="2" class="table-active table-dark text-center">Main Features</th>
+                </tr>
+                <tr class="row">
+                  <th scope="row" class="col-2 col-lg-2">Display Size</th>
+                  <td class="col-10 col-lg-10">${
+                    phone.mainFeatures.displaySize || "No data found"
+                  }</td>
+                </tr>
+                <tr class="row">
+                  <th scope="row" class="col-2 col-lg-2">Chipset</th>
+                  <td class="col-10 col-lg-10">${
+                    phone.mainFeatures.chipSet || "No data found"
+                  }</td>
+                </tr>
+                <tr class="row">
+                  <th scope="row" class="col-2 col-lg-2">Memory</th>
+                  <td class="col-10 col-lg-10">${
+                    phone.mainFeatures.memory || "No data found"
+                  }</td>
+                </tr>
+                <tr class="row">
+                  <th scope="row" class="col-2 col-lg-2">Storage</th>
+                  <td class="col-10 col-lg-10">${
+                    phone.mainFeatures.storage || "No data found"
+                  }</td>
+                </tr>
+                <tr class="row">
+                  <th scope="row" class="col-2 col-lg-2">Sensors</th>
+                  <td class="col-10 col-lg-10">${
+                    phone.mainFeatures?.sensors?.join(", ") || "No data found"
+                  }</td>
+                </tr>
+                <tr class="row">
+                  <th scope="row" colspan="2" class="table-active table-dark text-center">Others</th>
+                </tr>
+                <tr class="row">
+                  <th scope="row" class="col-2 col-lg-2">WLAN</th>
+                  <td class="col-10 col-lg-10">${
+                    phone?.others?.WLAN || "No data found"
+                  }</td>
+                </tr>
+                <tr class="row">
+                  <th scope="row" class="col-2 col-lg-2">Bluetooth</th>
+                  <td class="col-10 col-lg-10">${
+                    phone?.others?.Bluetooth || "No data found"
+                  }</td>
+                </tr>
+                <tr class="row">
+                  <th scope="row" class="col-2 col-lg-2">GPS</th>
+                  <td class="col-10 col-lg-10">${
+                    phone?.others?.GPS || "No data found"
+                  }</td>
+                </tr>
+                <tr class="row">
+                  <th scope="row" class="col-2 col-lg-2">NFC</th>
+                  <td class="col-10 col-lg-10">${
+                    phone?.others?.NFC || "No data found"
+                  }</td>
+                </tr>
+                <tr class="row">
+                  <th scope="row" class="col-2 col-lg-2">Radio</th>
+                  <td class="col-10 col-lg-10">${
+                    phone?.others?.Radio || "No data found"
+                  }</td>
+                </tr>
+                <tr class="row">
+                  <th scope="row" class="col-2 col-lg-2">USB</th>
+                  <td class="col-10 col-lg-10">${
+                    phone?.others?.USB || "No data found"
+                  }</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
   `;
   // phoneDetails.appendChild(div);
 
-  console.log(phone.name || "Not Found");
+  /* console.log(phone.name || "Not Found");
   console.log(phone?.releaseDate);
   console.log(phone.image);
   console.log(phone.brand);
@@ -96,11 +191,11 @@ const displayPhoneDetails = (phone) => {
   console.log(phone.mainFeatures.displaySize);
   console.log(phone.mainFeatures.chipSet);
   console.log(phone.mainFeatures?.memory);
-  console.log(phone.mainFeatures?.sensors?.toString());
+  console.log(phone.mainFeatures?.sensors?.join(", "));
   console.log(phone?.others?.WLAN);
   console.log(phone?.others?.Bluetooth);
   console.log(phone?.others?.GPS);
   console.log(phone?.others?.NFC);
   console.log(phone?.others?.Radio);
-  console.log(phone?.others?.USB);
+  console.log(phone?.others?.USB); */
 };
