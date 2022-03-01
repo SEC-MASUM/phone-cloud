@@ -86,7 +86,8 @@ const displayPhoneDetails = (phone) => {
               <span>${phone.name || "Not Found"}</span>
           </div>
   `;
-  phoneDetails.appendChild(div);
+  // phoneDetails.appendChild(div);
+
   console.log(phone.name || "Not Found");
   console.log(phone?.releaseDate);
   console.log(phone.image);
