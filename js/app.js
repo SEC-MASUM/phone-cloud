@@ -24,6 +24,7 @@ const loadData = () => {
   }
 };
 
+// Display Phones
 const displayData = (phones) => {
   if (phones.length === 0) {
     errorMessage.innerText = "Not Found. Please try with another keyword";
@@ -44,23 +45,51 @@ const displayData = (phones) => {
             </div>
             <div class="card-footer bg-white text-center border-0">
               <button
-                  onclick="loadMealDetails(${phone.slug})"     class="btn btn-info">See Details
+                  onclick="loadPhoneDetails('${phone.slug}')"     class="btn btn-info">See Details
               </button>
             </div>
         </div>
       `;
       phonesDiv.appendChild(phoneCardDiv);
-      console.log(`Brand ${phone.brand}`);
-      console.log(`Name ${phone.phone_name}`);
-      console.log(`Photo ${phone.image}`);
-      console.log(`Id ${phone.slug}`);
+      // console.log(`Brand ${phone.brand}`);
+      // console.log(`Name ${phone.phone_name}`);
+      // console.log(`Photo ${phone.image}`);
+      // console.log(`Id ${phone.slug}`);
     }
     console.log(phones);
     document.getElementById("spinner").style.display = "none";
   }
 };
-
+// Error Message
 const displayError = () => {
   errorMessage.style.display = "block";
   document.getElementById("spinner").style.display = "none";
+};
+
+// Load Phone Details
+const loadPhoneDetails = (id) => {
+  console.log(id);
+  const url = `https://openapi.programming-hero.com/api/phone/${id}`;
+  fetch(url)
+    .then((response) => response.json())
+    .then((data) => displayPhoneDetails(data.data));
+};
+
+// Display Phone Details
+const displayPhoneDetails = (phone) => {
+  console.log(phone.name);
+  console.log(phone?.releaseDate);
+  console.log(phone.image);
+  console.log(phone.brand);
+  console.log(phone.mainFeatures?.storage);
+  console.log(phone.mainFeatures.displaySize);
+  console.log(phone.mainFeatures.chipSet);
+  console.log(phone.mainFeatures?.memory);
+  console.log(phone.mainFeatures?.sensors?.toString());
+  console.log(phone?.others?.WLAN);
+  console.log(phone?.others?.Bluetooth);
+  console.log(phone?.others?.GPS);
+  console.log(phone?.others?.NFC);
+  console.log(phone?.others?.Radio);
+  console.log(phone?.others?.USB);
 };
