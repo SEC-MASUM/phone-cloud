@@ -48,7 +48,7 @@ const displayData = (phones) => {
           <button
             onclick="displayMorePhones('${searchField.value}')"
             type="button"
-            class="btn btn-primary py-2 px-4 fs-5"
+            class="btn btn-info py-2 px-4 fs-5"
           >
             Show More
           </button>
