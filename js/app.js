@@ -56,7 +56,7 @@ const displayData = (phones) => {
       // console.log(`Photo ${phone.image}`);
       // console.log(`Id ${phone.slug}`);
     }
-    console.log(phones);
+    // console.log(phones);
     document.getElementById("spinner").style.display = "none";
   }
 };
@@ -77,7 +77,17 @@ const loadPhoneDetails = (id) => {
 
 // Display Phone Details
 const displayPhoneDetails = (phone) => {
-  console.log(phone.name);
+  const phoneDetails = document.getElementById("phone-details");
+  const div = document.createElement("div");
+  div.classList.add("row", "border-bottom", "border-top", "border-2");
+  div.innerHTML = `
+          <div class="col-2 col-lg-2"><h6>col-2</h6></div>
+            <div class="col-10 col-lg-10 d-flex align-items-center">
+              <span>${phone.name || "Not Found"}</span>
+          </div>
+  `;
+  phoneDetails.appendChild(div);
+  console.log(phone.name || "Not Found");
   console.log(phone?.releaseDate);
   console.log(phone.image);
   console.log(phone.brand);
